@@ -184,7 +184,28 @@ int WebRtcAgc_AddMic(void *state, int16_t *in_mic, int16_t *in_mic_H,
 #endif
             return -1;
         }
-    }
+    } else if (stt->fs == 44100)
+         {
+             /* SWB is processed as 441 sample for L and H bands */
+             if (samples == 160)
+             {
+                 subFrames = 160;
+                 M = 10;
+                 L = 16;
+             } else if (samples == 441)
+             {
+                   M =10;
+                   L = 44;
+             }else
+             {
+     #ifdef AGC_DEBUG
+                 fprintf(stt->fpt,
+                         "AGC->add_mic, frame %d: Invalid sample rate\n\n",
+                         (stt->fcount + 1));
+     #endif
+                 return -1;
+             }
+         }
 
     /* Check for valid pointers based on sampling rate */
     if ((stt->fs == 32000) && (in_mic_H == NULL))

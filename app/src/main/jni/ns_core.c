@@ -78,7 +78,7 @@ int WebRtcNs_InitCore(NSinst_t* inst, uint32_t fs) {
   }
 
   // Initialization of struct
-  if (fs == 8000 || fs == 16000 || fs == 32000 ) {
+  if (fs == 8000 || fs == 16000 || fs == 32000 ||fs ==44100) {
     inst->fs = fs;
   } else {
     return -1;
@@ -105,7 +105,14 @@ int WebRtcNs_InitCore(NSinst_t* inst, uint32_t fs) {
     inst->anaLen = 256;
     inst->window = kBlocks160w256;
     inst->outLen = 0;
-  }
+  } else if (fs == 44100) {
+       // We only support 10ms frames
+       inst->blockLen = 441;
+       inst->blockLen10ms = 441;
+       inst->anaLen = 256;
+       inst->window = kBlocks160w256;
+       inst->outLen = 0;
+     }
 
   inst->magnLen = inst->anaLen / 2 + 1; // Number of frequency bins
 

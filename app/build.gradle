@@ -11,6 +11,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
+            setModuleName("webrtc_ns")
             // 设置支持的SO库架构,这个基本适用所有硬件设备（api>16）
             abiFilters 'armeabi-v7a'
         }
